@@ -25,7 +25,7 @@ class ProjectList(APIView): #APIView
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #configure to view specific project
-class ProjectDetail(generics.RetrieveUpdateDestroyAPIView): #APIView
+class ProjectDetail(APIView): #APIView
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     # def get_object(self,pk):

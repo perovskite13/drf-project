@@ -22,6 +22,7 @@ class CustomUserList(APIView):
 
 
 class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
     # def get_object(self, pk):
     #       try:
     #            return CustomUser.objects.get(pk=pk)
