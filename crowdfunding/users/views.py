@@ -21,12 +21,19 @@ class CustomUserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CustomUserDetail(APIView):
+class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
+    # def get_object(self, pk):
+    #       try:
+    #            return CustomUser.objects.get(pk=pk)
+    #       except CustomUser.DoesNotExist:
+    #            raise Http404
     def get_object(self, pk):
-          try:
-               return CustomUser.objects.get(pk=pk)
-          except CustomUser.DoesNotExist:
-               raise Http404
+        try:
+            user = CustomUser.objects.get(pk=pk)
+            self.check_object_permissions(self.request, user)
+            return user
+        except CustomUser.DoesNotExist:
+            raise Http404
             
     def get(self, request, pk):
         user = self.get_object(pk)
