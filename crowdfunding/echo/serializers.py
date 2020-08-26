@@ -7,7 +7,8 @@ class PledgeSerializer(serializers.Serializer):
     amount = serializers.IntegerField()
     comment = serializers.CharField(max_length=200)
     anonymous = serializers.BooleanField()
-    supporter = serializers.CharField(max_length=200)
+    #supporter = serializers.CharField(max_length=200)
+    supporter = serializers.ReadOnlyField(source='supporter.id')
     project_id= serializers.IntegerField()
 
     def create(self,validated_data):
@@ -22,7 +23,7 @@ class EchoSerializer(serializers.Serializer):
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
     owner = serializers.ReadOnlyField(source='owner.id')
-    pledges = PledgeSerializer(many=True,read_only=True)
+    #pledges = PledgeSerializer(many=True,read_only=True)
 
     def create(self,validated_data):
         return Echo.objects.create(**validated_data)
@@ -40,4 +41,6 @@ class EchoDetailSerializer(EchoSerializer):
         instance.owner = validated_data.get('owner', instance.owner)
         instance.save()
         return instance
+
+
 
