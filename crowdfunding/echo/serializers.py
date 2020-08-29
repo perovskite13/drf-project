@@ -8,11 +8,18 @@ class PledgeSerializer(serializers.Serializer):
     comment = serializers.CharField(max_length=200)
     anonymous = serializers.BooleanField()
     supporter = serializers.ReadOnlyField(source='supporter.id')
-    project = serializers.ReadOnlyField(source='project.id')
+    project_id = serializers.PrimaryKeyRelatedField(source='project.id',queryset=Echo.objects.all())
     #project_id = serializers.IntegerField()
 
     def create(self,validated_data):
-        return Pledge.objects.create(**validated_data)
+        #return Pledge.objects.create(project_id=validated_data['project']['id'].id)
+        pledge = Pledge.objects.create(
+            project_id=validated_data['project']['id'].id,
+            amount=validated_data.get('amount'),
+            comment=validated_data.get('comment'),
+            anonymous = validated_data.get('anonymous'),
+            supporter = validated_data.get('supporter'))
+        return pledge
 
 class EchoSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
