@@ -12,7 +12,6 @@ class PledgeSerializer(serializers.Serializer):
     #project_id = serializers.IntegerField()
 
     def create(self,validated_data):
-        #return Pledge.objects.create(project_id=validated_data['project']['id'].id)
         pledge = Pledge.objects.create(
             project_id=validated_data['project']['id'].id,
             amount=validated_data.get('amount'),
@@ -31,6 +30,7 @@ class EchoSerializer(serializers.Serializer):
     date_created = serializers.DateTimeField()
     owner = serializers.ReadOnlyField(source='owner.id')
     pledges = PledgeSerializer(many=True,read_only=True) #
+    category = serializers.ReadOnlyField(source='category.id')
 
     def create(self,validated_data):
         return Echo.objects.create(**validated_data)

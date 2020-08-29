@@ -18,6 +18,13 @@ class Echo(models.Model):
         on_delete=models.CASCADE,
         related_name='owner_projects'
     )
+    category = models.ForeignKey(
+        'EchoCategory',
+        on_delete=models.CASCADE,
+        related_name='category_projects',
+        null=True,
+        blank=True
+    )
 
 class Pledge(models.Model):
     amount = models.IntegerField()
@@ -33,6 +40,9 @@ class Pledge(models.Model):
         on_delete=models.CASCADE,
         related_name='supporter_pledges'
     )
+
+class EchoCategory(models.Model):
+    name = models.CharField(max_length=200)
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):

@@ -24,6 +24,8 @@ class ProjectList(APIView): #APIView
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    
+
 #configure to view specific project
 class ProjectDetail(APIView): #APIView
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
@@ -61,13 +63,11 @@ class ProjectDetail(APIView): #APIView
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self,request,pk):
-        project = self.objects.get(pk=pk)
-        self.check_object_permissions(self.request, project)
-        #project = self.get_object(pk)
+        project = self.get_object(pk=pk)
         #how to add condition so that only owner can delete its own project, and if there are no supporters
         project.delete()
         return Response(status=status.HTTP_200_OK)
-        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 #configure to view all pledges
 class PledgeList(APIView):
