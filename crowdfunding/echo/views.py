@@ -4,12 +4,15 @@ from rest_framework import status, permissions
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
+from rest_framework.generics import (ListCreateAPIView,RetrieveUpdateDestroyAPIView,)
 from .models import Echo, Pledge
 from .serializers import EchoSerializer, PledgeSerializer,EchoDetailSerializer
 from .permissions import IsOwnerOrReadOnly
 
 #configure to view all projects
-class ProjectList(APIView): #APIView
+class ProjectList(ListCreateAPIView): #APIView
+    queryset=Echo.objects.all()
+    serializer_class=EchoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self,request):
@@ -27,7 +30,9 @@ class ProjectList(APIView): #APIView
     
 
 #configure to view specific project
-class ProjectDetail(APIView): #APIView
+class ProjectDetail(generics.RetrieveUpdateDestroyAPIView): #APIView
+    queryset=Echo.objects.all()
+    serializer_class=EchoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     # def get_object(self,pk):
@@ -70,7 +75,9 @@ class ProjectDetail(APIView): #APIView
     
 
 #configure to view all pledges
-class PledgeList(APIView):
+class PledgeList(ListCreateAPIView):
+    queryset=Pledge.objects.all()
+    serializer_class=PledgeSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self,request):
@@ -87,6 +94,9 @@ class PledgeList(APIView):
 
 #configure to view specific pledge
 class PledgeDetail(generics.RetrieveAPIView):
+    queryset=Pledge.objects.all()
+    serializer_class=PledgeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     # def get_object(self,pk):
     #     try:
     #         return Pledge.objects.get(pk=pk)

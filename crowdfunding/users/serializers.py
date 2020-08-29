@@ -8,6 +8,12 @@ class CustomUserSerializer(serializers.Serializer):
     username = serializers.CharField(max_length = 200)
     email = serializers.CharField(max_length = 200)
     password = serializers.CharField(write_only=True)
+    bio=serializers.CharField()
+    location=serializers.CharField()
+    # is_active=serializers.BooleanField() #eventually turns to true?
+    is_mentor=serializers.BooleanField()
+    #image = serializers.URLField( null = True)
+    #media_link = serializers.URLField( null = True)
 
     def create(self, validated_data):
         return CustomUser.objects.create(**validated_data)
