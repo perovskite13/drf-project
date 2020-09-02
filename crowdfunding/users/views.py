@@ -11,7 +11,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .utils import Util
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-#from .permissions import IsOwnerOrReadOnly
+from rest_framework import permissions
+from .permissions import IsOwnerOrReadOnly
 
 
 class CustomUserList(ListCreateAPIView):
@@ -35,9 +36,7 @@ class CustomUserList(ListCreateAPIView):
 class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
-    permission_classes = [IsAuthenticated]
-    #, 
-    #IsOwnerOrReadOnly]
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
 
     def get_object(self, pk):
         try:
@@ -61,7 +60,7 @@ class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
             partial=True
         )
         if serializer.is_valid():
-            serializer.save(request.user)
+            serializer.save(owner=request.user)
             return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
