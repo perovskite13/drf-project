@@ -7,7 +7,7 @@ class CustomUserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     username = serializers.CharField(max_length = 200)
     email = serializers.CharField(max_length = 200)
-    password = serializers.CharField(write_only=True)
+    #password = serializers.CharField(write_only=True)
     bio=serializers.CharField()
     location=serializers.CharField()
     # is_active=serializers.BooleanField() #eventually turns to true?
