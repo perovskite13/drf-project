@@ -64,7 +64,12 @@ class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+    def delete(self, request, pk):
+        user = self.get_object(pk)
+        if user:
+            user.delete()
+            return Response({"status":"ok"}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # class CreateAccountView(ListCreateAPIView):
 #     queryset=CustomUser.objects.all()
@@ -89,7 +94,6 @@ class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
     #     email_body='Hi '+user.username+' Use link below to verify your email \n'+ absurl#
     #     data={'email_body':email_body,'to_email':user.email,'subject':'Verify your email'}#
     #     Util.send_email(data)#
-
 
 class VerifyEmail(generics.GenericAPIView):
     def get(self):
