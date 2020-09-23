@@ -15,10 +15,10 @@ from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
 
 
-class CustomUserList(ListCreateAPIView):
+class CustomUserList(APIView):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
-    permission_classes=[IsAuthenticated]
+    permission_classes=[]
 
     def get(self, request):
           users = CustomUser.objects.all()
@@ -51,34 +51,6 @@ class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
 
-    # def update(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     instance.username = request.data.get("username")
-    #     instance.email = request.data.get("email")
-    #     instance.bio = request.data.get("bio")
-    #     instance.location = request.data.get("location")
-    #     instance.is_mentor = request.data.get("is_mentor")
-    #     instance.save()
-    #     serializer = self.get_serializer(instance)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_update(serializer)
-    #     return Response(serializer.data)
-
-    # def update(self, instance, validated_data):
-    #     """Override update method because we need to update
-    #     nested serializer for profile
-    #     """
-    #     if validated_data.get('profile'):
-    #         profile_data = validated_data.get('profile')
-    #         profile_serializer = ProfileSerializer(data=profile_data)
-
-    #         if profile_serializer.is_valid():
-    #             profile = profile_serializer.update(instance=instance.profile)
-    #             validated_data['profile'] = profile
-
-    #     return super(CustomUserSerializer, self).update(instance, validated_data)
-
-
     def put(self, request, pk):
         user = self.get_object(pk)
         data = request.data
@@ -88,14 +60,16 @@ class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
             partial=True
         )
         if serializer.is_valid():
-            serializer.save(request.user)
+            serializer.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CreateAccountView(ListCreateAPIView):
-    queryset=CustomUser.objects.all()
-    serializer_class=CustomUserSerializer
-    #permission_classes=[IsAuthenticated]
+
+
+# class CreateAccountView(ListCreateAPIView):
+#     queryset=CustomUser.objects.all()
+#     serializer_class=CustomUserSerializer
+#     #permission_classes=[IsAuthenticated]
 
     # def perform_create(self, serializer):
     #     user=self.request.user

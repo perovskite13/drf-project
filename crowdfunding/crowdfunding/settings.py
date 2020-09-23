@@ -25,8 +25,10 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','6=yvha0!p&3%013%)jn+5808s5i3b$x
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG','') != 'False' #environment store false as string 
+#DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Application definition
