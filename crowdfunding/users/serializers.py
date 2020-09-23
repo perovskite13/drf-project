@@ -29,6 +29,8 @@ class CustomUserSerializer(serializers.Serializer):
         instance.bio = validated_data.get('bio', instance.bio)
         instance.location = validated_data.get('location', instance.location)
         instance.is_mentor = validated_data.get('is_mentor', instance.is_mentor)
+        if 'password' in validated_data:
+            instance.set_password(validated_data['password']) 
         instance.save()
         return instance
 
