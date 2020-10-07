@@ -71,6 +71,14 @@ class CustomUserDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response({"status":"ok"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class MeView(APIView):
+    def get(self, request):
+        user = self.request.user
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
+
+
 # class CreateAccountView(ListCreateAPIView):
 #     queryset=CustomUser.objects.all()
 #     serializer_class=CustomUserSerializer

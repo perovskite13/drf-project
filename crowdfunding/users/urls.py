@@ -7,6 +7,7 @@ from .views import ChangePasswordView,VerifyEmail
 
 urlpatterns = [
     path('users/', views.CustomUserList.as_view()),
+    path('users/me/', views.MeView.as_view()),
     path('users/<int:pk>/', views.CustomUserDetail.as_view()),
     path('users/<int:pk>/change-password/', ChangePasswordView.as_view(), name='change-password'),
     path('email-verify/', VerifyEmail.as_view(), name = 'email-verify'),

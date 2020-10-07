@@ -12,11 +12,11 @@ class CustomUserSerializer(serializers.Serializer):
     location=serializers.CharField()
     # is_active=serializers.BooleanField() #eventually turns to true?
     is_mentor=serializers.BooleanField()
-    #image = serializers.URLField( null = True)
+    #image = serializers.URLField()
     #media_link = serializers.URLField( null = True)
 
     def create(self, validated_data):
-        return CustomUser.objects.create(**validated_data)
+        return CustomUser.objects.create_user(**validated_data) #create user instead of create
 
     class Meta:
         model = CustomUser
