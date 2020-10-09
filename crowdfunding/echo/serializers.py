@@ -7,7 +7,7 @@ class PledgeSerializer(serializers.Serializer):
     amount = serializers.IntegerField()
     comment = serializers.CharField(max_length=200)
     anonymous = serializers.BooleanField()
-    supporter = serializers.ReadOnlyField(source='supporter.id')
+    supporter = serializers.ReadOnlyField(source='supporter.username')
     project_id = serializers.PrimaryKeyRelatedField(source='project.id',queryset=Echo.objects.all())
     #project_id = serializers.IntegerField()
 
@@ -28,7 +28,7 @@ class EchoSerializer(serializers.Serializer):
     image = serializers.URLField()
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
-    owner = serializers.ReadOnlyField(source='owner.id')
+    owner = serializers.ReadOnlyField(source='owner.username')
     pledges = PledgeSerializer(many=True,read_only=True) #
     category = serializers.ReadOnlyField(source='category.id')
 
