@@ -30,7 +30,7 @@ class ProjectList(ListCreateAPIView): #APIView
     
 
 #configure to view specific project
-class ProjectDetail(generics.RetrieveUpdateDestroyAPIView): #APIView
+class ProjectDetail(APIView): #APIView
     queryset=Echo.objects.all()
     serializer_class=EchoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
@@ -43,7 +43,7 @@ class ProjectDetail(generics.RetrieveUpdateDestroyAPIView): #APIView
 
     def get_object(self, pk):
         try:
-            project = Echo.objects.get(pk=pk)
+            project = Echo.objects.get(pk=pk) 
             self.check_object_permissions(self.request, project)
             return project
         except Echo.DoesNotExist:
@@ -63,7 +63,7 @@ class ProjectDetail(generics.RetrieveUpdateDestroyAPIView): #APIView
             partial=True
         )
         if serializer.is_valid():
-            serializer.save(request.user)
+            serializer.save(owner=request.user)
             return Response(serializer.data,status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
