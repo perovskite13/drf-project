@@ -30,7 +30,8 @@ class EchoSerializer(serializers.Serializer):
     date_created = serializers.DateTimeField()
     owner = serializers.ReadOnlyField(source='owner.username')
     pledges = PledgeSerializer(many=True,read_only=True) #
-    category = serializers.CharField(max_length=200)
+    # category = serializers.CharField(max_length = 200)
+    # category = serializers.CharField(source='category.name')
 
     def create(self,validated_data):
         return Echo.objects.create(**validated_data)
@@ -46,6 +47,7 @@ class EchoDetailSerializer(EchoSerializer):
         instance.is_open = validated_data.get('is_open', instance.is_open)
         instance.date_created = validated_data.get('date_created', instance.date_created)
         instance.owner = validated_data.get('owner', instance.owner)
+        #instance.category = validated_data.get('category', instance.category)
         instance.save()
         return instance
 
